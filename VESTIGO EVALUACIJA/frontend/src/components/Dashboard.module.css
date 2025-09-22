@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+.outer{
+    font-family: "Outfit";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #D9E9CF;
+    height: 100vh;
+}
+
+.container{
+    background-color: #B6CEB4;
+    height: 70%;
+    width: 80%;
+    border-radius: 15px;
+}
+
+.tasks{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: calc(100% - 40px);
+    margin: 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
