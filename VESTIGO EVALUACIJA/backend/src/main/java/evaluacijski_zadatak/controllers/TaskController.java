@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,22 +27,16 @@ public class TaskController {
 
     //REST API za dodavanje taska
     @PostMapping
-    public ResponseEntity<TaskDto> createTask(@RequestBody TaskDto taskDto){
-        TaskDto savedTaskDto = taskService.createTask(taskDto);
+    public ResponseEntity<TaskDto> createTask(@RequestHeader("Auth") String token,
+                                @RequestBody TaskDto taskDto){
+        TaskDto savedTaskDto = taskService.createTask(taskDto,token);
         return new ResponseEntity<>(savedTaskDto, HttpStatus.CREATED);
-    }
-
-    //REST API za dohvacanje taska po ID-u
-    @GetMapping("{id}")
-    public ResponseEntity<TaskDto> getTaskbyId(@PathVariable("id") Long taskId){
-        TaskDto taskDto = taskService.getTaskById(taskId);
-        return ResponseEntity.ok(taskDto);
     }
 
     //REST API za dohvacanje svih taskova
     @GetMapping
-    public ResponseEntity<List<TaskDto>> getAllTasks(){
-        List<TaskDto> tasks = taskService.getAllTasks();
+    public ResponseEntity<List<TaskDto>> getAllTasks(@RequestHeader("Auth") String token){
+        List<TaskDto> tasks = taskService.getAllTasks(token);
         return ResponseEntity.ok(tasks);
     }
 

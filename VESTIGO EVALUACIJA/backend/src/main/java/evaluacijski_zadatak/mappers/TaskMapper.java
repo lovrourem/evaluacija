@@ -16,12 +16,12 @@ public class TaskMapper {
     }
 
     public static Task mapToTask(TaskDto taskDto){
-        return new Task(
-            taskDto.getId(),
-            taskDto.getTitle(),
-            taskDto.getDescription(),
-            taskDto.getCompleted(),
-            taskDto.getCreatedAt()
-        );
+        Task task = new Task();
+        task.setId(taskDto.getId());
+        task.setTitle(taskDto.getTitle());
+        task.setDescription(taskDto.getDescription());
+        task.setCompleted(taskDto.getCompleted());
+        task.setCreatedAt(taskDto.getCreatedAt());
+        return task;
     }
 }
