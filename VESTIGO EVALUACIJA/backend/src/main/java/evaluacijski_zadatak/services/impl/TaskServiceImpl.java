@@ -6,9 +6,12 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import evaluacijski_zadatak.dtos.TaskDto;
 import evaluacijski_zadatak.entities.Task;
+import evaluacijski_zadatak.entities.User;
 import evaluacijski_zadatak.exceptions.ResourceNotFoundException;
 import evaluacijski_zadatak.mappers.TaskMapper;
 import evaluacijski_zadatak.repositories.TaskRepository;
+import evaluacijski_zadatak.repositories.UserRepository;
+import evaluacijski_zadatak.services.JwtService;
 import evaluacijski_zadatak.services.TaskService;
 import lombok.AllArgsConstructor;
 
@@ -17,26 +20,26 @@ import lombok.AllArgsConstructor;
 public class TaskServiceImpl implements TaskService {
 
     private TaskRepository taskRepository;
+    private UserRepository userRepository;
+    private JwtService jwtService;
 
     @Override
-    public TaskDto createTask(TaskDto taskDto) {
+    public TaskDto createTask(TaskDto taskDto, String token) {
 
-        Task task = TaskMapper.mapToTask(taskDto);
-        Task savedTask = taskRepository.save(task);
-        TaskDto savedTaskDto = TaskMapper.mapToTaskDto(savedTask);
-        return savedTaskDto;
+        Long userId = jwtService.extractUserId(token);
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        Task newTask = TaskMapper.mapToTask(taskDto);
+        newTask.setUser(user);
+        taskRepository.save(newTask);
+        return TaskMapper.mapToTaskDto(newTask);
     }
 
     @Override
-    public TaskDto getTaskById(Long taskId) {
-        Task task = taskRepository.findById(taskId)
-            .orElseThrow(() -> new ResourceNotFoundException("There is no task with the given id : " + taskId));
-        return TaskMapper.mapToTaskDto(task);
-    }
-
-    @Override
-    public List<TaskDto> getAllTasks() {
-        List<Task> tasks = taskRepository.findAll();
+    public List<TaskDto> getAllTasks(String token) {
+        Long userId = jwtService.extractUserId(token);
+        List<Task> tasks = taskRepository.findAllByUserId(userId);
         return tasks.stream().map((task) -> TaskMapper.mapToTaskDto(task))
             .collect(Collectors.toList());
     }
