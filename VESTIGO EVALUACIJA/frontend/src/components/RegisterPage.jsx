@@ -9,18 +9,14 @@ function Homepage() {
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-    const handleRegister = async =>{
-        navigate("/register");
-    }
-
-    const handleLogin = async() => {
+    const handleRegister = async() => {
         if (!username || !password) {
             alert("Username and password are required!");
             return;
         }
 
         try{
-            const response = await fetch("http://localhost:8080/api/users/login",{
+            const response = await fetch("http://localhost:8080/api/users/register",{
                 method: "POST",
                 headers:{
                     'Content-Type': "application/json",
@@ -29,16 +25,14 @@ function Homepage() {
             });
 
             if (!response.ok) {
-                const text = await response.text();
-                alert("Login failed");
+                const errorData = await response.json();
+                alert(errorData.message);
                 return;
             }
 
             if(response.status === 200){
                 const data = await response.json();
-                localStorage.setItem("token", data.token);
-                localStorage.setItem("username", data.username);
-                navigate("/dashboard");
+                navigate("/");
             }
 
         }catch(error){
@@ -73,9 +67,6 @@ function Homepage() {
                             onChange={(e) => setPassword(e.target.value)}
                         >
                         </input>
-                    </div>
-                    <div className={styles.inputDiv}>
-                        <button type="button" onClick={handleLogin} className={styles.btn}>Login</button>
                     </div>
                     <div className={styles.inputDiv}>
                         <button type="button" onClick={handleRegister} className={styles.btn}>Register</button>
