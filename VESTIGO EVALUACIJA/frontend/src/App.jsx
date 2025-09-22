@@ -1,14 +1,22 @@
 import { useState } from 'react'
+import React from 'react'
+import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom'
+
 import './App.css'
 
+import Dashboard from './components/Dashboard'
+
+
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <>
-      <h1>TEST</h1>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </Router>
   )
+
 }
 
 export default App
