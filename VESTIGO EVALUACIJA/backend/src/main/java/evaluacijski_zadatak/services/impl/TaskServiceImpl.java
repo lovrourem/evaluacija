@@ -78,6 +78,10 @@ public class TaskServiceImpl implements TaskService {
             throw new RuntimeException("You are not allowed to edit this task");
         }
 
+        if (task.getCompleted()) {
+            throw new RuntimeException("Completed tasks cannot be edited");
+        }
+
         task.setTitle(updatedTask.getTitle());
         task.setDescription(updatedTask.getDescription());
 
@@ -98,9 +102,29 @@ public class TaskServiceImpl implements TaskService {
             throw new RuntimeException("You are not allowed to complete this task");
         }
 
+        if (task.getCompleted()) {
+            throw new RuntimeException("Completed tasks cannot be completed again");
+        }
+
         task.setCompleted(true);
         Task updatedTaskObj = taskRepository.save(task);
         return TaskMapper.mapToTaskDto(updatedTaskObj);
+    }
+
+    @Override
+    public TaskDto getTaskById(Long taskId, String token) {
+        Long userId = jwtService.extractUserId(token);
+        userRepository.findById(userId)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        Task task = taskRepository.findById(taskId)
+                        .orElseThrow(() -> new ResourceNotFoundException("There is no task with the given id"));
+
+        if(!task.getUser().getId().equals(userId)){
+            throw new RuntimeException("You are not allowed to view this task");
+        }
+
+        return TaskMapper.mapToTaskDto(task);
     }
 
     
