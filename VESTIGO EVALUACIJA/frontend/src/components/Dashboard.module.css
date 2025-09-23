@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+.outer{
+    font-family: "Outfit";
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #D9E9CF;
+    height: 100vh;
+}
+
+.container{
+    background-color: #B6CEB4;
+    height: 70%;
+    width: 80%;
+    border-radius: 15px;
+}
+
+.tasks{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: calc(100% - 40px);
+    margin: 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+.addBtn{
+    margin-top: 2%;
+}
+
+.addBtn button{
+    font-family: "Outfit";
+    font-size: clamp(1rem, 1.5vw + 0.5rem, 2rem);
+    border-radius: 5px;
+    border: none;
+    background-color: #B6CEB4;
+    cursor: pointer;
+}
+
+.addBtn button:hover{
+    background-color: #6b9269;
+}
+
+.addBtn button:active{
+    transform: scale(0.95);
+}
+
+.filter{
+    margin-right: 12%;
+    align-self: flex-end;
+    margin-bottom: 1%;
+}
+
+.filter label{
+    margin-right: 5px;
+}
+
