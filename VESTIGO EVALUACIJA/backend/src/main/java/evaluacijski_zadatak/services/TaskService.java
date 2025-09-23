@@ -10,4 +10,5 @@ public interface TaskService {
     TaskDto updateTask(Long taskId, TaskDto updatedTask, String token);
     void deleteTask(Long taskId, String token);
     TaskDto completeTask(Long taskId, String token);
+    TaskDto getTaskById(Long taskId, String token);
 }

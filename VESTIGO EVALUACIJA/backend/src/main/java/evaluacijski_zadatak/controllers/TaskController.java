@@ -66,5 +66,12 @@ public class TaskController {
         return ResponseEntity.ok(taskDto);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<TaskDto> getTaskById (@PathVariable("id") Long taskId,
+                                                    @RequestHeader ("Auth") String token){
+        
+        TaskDto taskDto = taskService.getTaskById(taskId, token);
+        return ResponseEntity.ok(taskDto);
+    }
 
 } 

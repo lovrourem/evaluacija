@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import styles from "./AddTaskPage.module.css"
@@ -9,6 +9,33 @@ function EditTaskPage() {
     const navigate = useNavigate();
     const location = useLocation();
     const {taskId} = location.state || {};
+
+    const fetchTask = async () =>{
+        try{
+
+            const response = await fetch (`http://localhost:8080/api/tasks/${taskId}` ,{
+                method: "GET",
+                headers: {
+                    "Auth": localStorage.getItem("token")
+                }
+            })
+
+            if(!response.ok){
+                const errorData = await response.json();
+                alert(errorData.message)
+                return
+            }
+            
+            if(response.status === 200){
+                const task = await response.json()
+                setTitle(task.title)
+                setDescription(task.description)
+            }
+
+        }catch(err){
+            alert(err)
+        }
+    }
 
     const handleEditTask = async (e) =>{
         e.preventDefault();
@@ -41,9 +68,11 @@ function EditTaskPage() {
         }catch(err){
             alert(err)
         }
-
-
     }
+
+    useEffect(() => {
+        fetchTask()
+    }, [taskId])
 
     return (
         <div className={styles.outer}>
@@ -56,6 +85,7 @@ function EditTaskPage() {
                         <input
                             type="text"
                             required
+                            value={title}
                             onChange={(e) => setTitle(e.target.value)}
                         >
                         </input>
@@ -67,6 +97,7 @@ function EditTaskPage() {
                         <input
                             type="text"
                             required
+                            value={description}
                             onChange={(e) => setDescription(e.target.value)}
                         >
                         </input>
