@@ -62,6 +62,34 @@ function Dashboard() {
         }
     }
 
+    const handleEdit = async (taskId) => {
+      navigate("/dashboard/edit", {state: {taskId}})
+    }
+
+    const handleComplete = async (taskId) => {
+      try{
+
+        const response = await fetch (`http://localhost:8080/api/tasks/complete/${taskId}`, {
+          method: "POST",
+          headers: {
+            "Auth": localStorage.getItem("token")
+          }
+        })
+
+        if(!response.ok){
+          const errorData = await response.json()
+          alert(errorData)
+          return
+        }
+
+        alert("Task finished")
+        setRefresh(prev => (!prev))
+
+      }catch(err){
+        alert(err)
+      }
+    }
+
     useEffect(() => {
       fetchTasks();
     }, [refresh]);
@@ -71,7 +99,10 @@ function Dashboard() {
       <div className={styles.container}>
         <div className={styles.tasks}>
           {tasks.map((task) => (
-            <TaskComponent key={task.id} task={task} onDelete={handleDelete} />
+            <TaskComponent key={task.id} task={task}
+                           onDelete={handleDelete} 
+                           onEdit={handleEdit}
+                           onComplete={handleComplete} />
           ))}
         </div>
       </div>

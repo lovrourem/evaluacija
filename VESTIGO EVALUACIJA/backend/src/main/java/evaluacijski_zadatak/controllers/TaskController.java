@@ -51,9 +51,20 @@ public class TaskController {
     //REST API za uređivanje taska
     @PutMapping("{id}")
     public ResponseEntity<TaskDto> updateTask(@PathVariable ("id") Long taskId,
-                                                    @RequestBody TaskDto updatedTask){
-        TaskDto taskDto = taskService.updateTask(taskId, updatedTask);
+                                                    @RequestBody TaskDto updatedTask,
+                                                    @RequestHeader ("Auth") String token){
+        TaskDto taskDto = taskService.updateTask(taskId, updatedTask, token);
         return ResponseEntity.ok(taskDto);
     }
+
+    //REST API za završavanje taska
+    @PostMapping("/complete/{id}")
+    public ResponseEntity<TaskDto> completeTask(@PathVariable ("id") Long taskId,
+                                                    @RequestHeader ("Auth") String token){
+        
+        TaskDto taskDto = taskService.completeTask(taskId, token);
+        return ResponseEntity.ok(taskDto);
+    }
+
 
 } 
