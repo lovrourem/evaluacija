@@ -18,7 +18,7 @@
 * Backend dostupan na http://localhost:8080
 
 
-##Implementacija
+## Implementacija
 Implementirani su svi funkcionalni zahtjevi dani u zadatku
 
 **FRONTEND**
