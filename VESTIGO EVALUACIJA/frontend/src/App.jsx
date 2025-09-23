@@ -8,6 +8,7 @@ import Dashboard from "./components/Dashboard"
 import Homepage from "./components/Homepage"
 import RegisterPage from "./components/RegisterPage"
 import AddTask from "./components/AddTaskPage"
+import EditTask from "./components/EditTaskPage"
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/dashboard/add" element={<AddTask/>} />
+        <Route path="/dashboard/edit" element={<EditTask/>} />
       </Routes>
     </Router>
   )

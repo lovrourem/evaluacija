@@ -42,6 +42,9 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<TaskDto> getAllTasks(String token) {
         Long userId = jwtService.extractUserId(token);
+        userRepository.findById(userId)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
         List<Task> tasks = taskRepository.findAllByUserId(userId);
         return tasks.stream().map((task) -> TaskMapper.mapToTaskDto(task))
             .collect(Collectors.toList());
@@ -50,6 +53,8 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void deleteTask(Long taskId, String token) {
         Long userId = jwtService.extractUserId(token);
+        userRepository.findById(userId)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         Task task = taskRepository.findById(taskId)
             .orElseThrow(() -> new ResourceNotFoundException("There is no task with the given id : " + taskId));
@@ -62,14 +67,41 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskDto updateTask(Long taskId, TaskDto updatedTask) {
+    public TaskDto updateTask(Long taskId, TaskDto updatedTask, String token) {
+        Long userId = jwtService.extractUserId(token);
+        userRepository.findById(userId)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new ResourceNotFoundException("There is no task with the given id"));
+
+        if(!task.getUser().getId().equals(userId)){
+            throw new RuntimeException("You are not allowed to edit this task");
+        }
+
         task.setTitle(updatedTask.getTitle());
         task.setDescription(updatedTask.getDescription());
-        task.setCompleted(updatedTask.getCompleted());
 
         Task updatedTaskObj = taskRepository.save(task);
         return TaskMapper.mapToTaskDto(updatedTaskObj);
     }
 
+    @Override
+    public TaskDto completeTask(Long taskId, String token) {
+        Long userId = jwtService.extractUserId(token);
+        userRepository.findById(userId)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        
+        Task task = taskRepository.findById(taskId)
+                        .orElseThrow(() -> new ResourceNotFoundException("There is no task with the given id"));
+
+        if(!task.getUser().getId().equals(userId)){
+            throw new RuntimeException("You are not allowed to complete this task");
+        }
+
+        task.setCompleted(true);
+        Task updatedTaskObj = taskRepository.save(task);
+        return TaskMapper.mapToTaskDto(updatedTaskObj);
+    }
+
+    
 }
