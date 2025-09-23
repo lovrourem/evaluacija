@@ -7,9 +7,10 @@ import TaskComponent from './TaskComponent'
 
 function Dashboard() {
 
-    const [tasks, setTasks] = useState([])
+    const [tasks, setTasks] = useState([]);
     const navigate = useNavigate();
     const [refresh, setRefresh] = useState(false);
+    const [filter, setFilter] = useState("all");
 
     const handleAddingTask = async() =>{
       navigate("/dashboard/add");
@@ -90,15 +91,29 @@ function Dashboard() {
       }
     }
 
+    const filteredTasks = tasks.filter((task) =>{
+      if(filter === "completed") return task.completed;
+      if(filter === "not_completed") return !task.completed;
+      return true;
+    })
+
     useEffect(() => {
       fetchTasks();
     }, [refresh]);
 
     return (
     <div className={styles.outer}>
+      <div className={styles.filter}>
+        <label>Filter:</label>
+        <select value={filter} onChange={(e) => setFilter(e.target.value)}>
+          <option value ="all">All</option>
+          <option value ="completed">Completed</option>
+          <option value ="not_completed">Not Completed</option>
+        </select>
+      </div>
       <div className={styles.container}>
         <div className={styles.tasks}>
-          {tasks.map((task) => (
+          {filteredTasks.map((task) => (
             <TaskComponent key={task.id} task={task}
                            onDelete={handleDelete} 
                            onEdit={handleEdit}

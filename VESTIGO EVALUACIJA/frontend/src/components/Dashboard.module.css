@@ -49,3 +49,13 @@
     transform: scale(0.95);
 }
 
+.filter{
+    margin-right: 12%;
+    align-self: flex-end;
+    margin-bottom: 1%;
+}
+
+.filter label{
+    margin-right: 5px;
+}
+
