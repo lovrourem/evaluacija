@@ -48,6 +48,20 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public void deleteTask(Long taskId, String token) {
+        Long userId = jwtService.extractUserId(token);
+
+        Task task = taskRepository.findById(taskId)
+            .orElseThrow(() -> new ResourceNotFoundException("There is no task with the given id : " + taskId));
+        
+        if(!task.getUser().getId().equals(userId)){
+            throw new RuntimeException("You are not allowed to delete this task");
+        }
+        
+        taskRepository.delete(task);
+    }
+
+    @Override
     public TaskDto updateTask(Long taskId, TaskDto updatedTask) {
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new ResourceNotFoundException("There is no task with the given id"));
         task.setTitle(updatedTask.getTitle());
@@ -56,14 +70,6 @@ public class TaskServiceImpl implements TaskService {
 
         Task updatedTaskObj = taskRepository.save(task);
         return TaskMapper.mapToTaskDto(updatedTaskObj);
-    }
-
-    @Override
-    public void deleteTask(Long taskId) {
-        taskRepository.findById(taskId)
-            .orElseThrow(() -> new ResourceNotFoundException("There is no task with the given id : " + taskId));
-        
-            taskRepository.deleteById(taskId);
     }
 
 }
