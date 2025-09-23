@@ -3,7 +3,7 @@
 
 **UPUTE ZA POKRETANJE:**
 * Klonirati GitHub repozitorij: `git clone https://github.com/lovrourem/evaluacija.git`
-* Ući u lokalnu kopiju repozitorija : `cd evaluacija`
+* Ući u lokalnu kopiju repozitorija : `cd VESTIGO EVALUACIJA/evaluacija`
 * Postaviti env varijable za spajanje na bazu podataka:
   * `set DB_URL="..."`
   * `set DB_USER="..."`
