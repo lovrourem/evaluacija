@@ -40,6 +40,14 @@ public class TaskController {
         return ResponseEntity.ok(tasks);
     }
 
+    //REST API za brisanje taska
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteTask(@RequestHeader ("Auth") String token,
+                            @PathVariable("id") Long taskId){
+        taskService.deleteTask(taskId, token);
+        return ResponseEntity.ok("Task deleted succesfully");
+    }
+
     //REST API za uređivanje taska
     @PutMapping("{id}")
     public ResponseEntity<TaskDto> updateTask(@PathVariable ("id") Long taskId,
@@ -48,10 +56,4 @@ public class TaskController {
         return ResponseEntity.ok(taskDto);
     }
 
-    //REST API za brisanje taska
-    @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteTask(@PathVariable("id") Long taskId){
-        taskService.deleteTask(taskId);
-        return ResponseEntity.ok("Task deleted succesfully");
-    }
 } 

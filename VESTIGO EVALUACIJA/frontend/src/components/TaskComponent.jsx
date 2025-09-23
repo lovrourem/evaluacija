@@ -1,10 +1,11 @@
 import React from "react";
 import styles from "./TaskComponent.module.css";
 
-export default function TaskComponent({ task }) {
+export default function TaskComponent({ task, onDelete }) {
     const date = new Date(task.createdAt).toLocaleDateString("hr-HR", {
         dateStyle: "short",
     });
+
 
     return (
         <div className={styles.task}>
@@ -22,7 +23,7 @@ export default function TaskComponent({ task }) {
             <div className={styles.buttons}>
                 {!task.completed && (<button className={styles.button}>Završi</button>)}
                 <button className={styles.button}>Uredi</button>
-                <button className={styles.button}>Obriši</button>
+                <button onClick={() => onDelete(task.id)} className={styles.button}>Obriši</button>
             </div>
         </div>
     );
