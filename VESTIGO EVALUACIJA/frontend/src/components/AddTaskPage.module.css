@@ -12,33 +12,36 @@
 
 .container{
     background-color: #B6CEB4;
-    height: 70%;
-    width: 80%;
+    height: auto;
+    width: auto;
     border-radius: 15px;
+    padding: 5%;
 }
 
-.tasks{
+.form{
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    max-height: calc(100% - 40px);
-    margin: 20px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    box-sizing: border-box;
+}
+
+.inputDiv{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .addBtn{
-    margin-top: 2%;
+    margin-top: 10px;
+    align-self: center;
 }
 
 .addBtn button{
     font-family: "Outfit";
-    font-size: clamp(1rem, 1.5vw + 0.5rem, 2rem);
+    font-size: clamp(1rem, 1vw + 0.3rem, 2rem);
     border-radius: 5px;
     border: none;
-    background-color: #B6CEB4;
+    background-color: #D9E9CF;
     cursor: pointer;
+    align-self: center;
 }
 
 .addBtn button:hover{
@@ -48,4 +51,3 @@
 .addBtn button:active{
     transform: scale(0.95);
 }
-

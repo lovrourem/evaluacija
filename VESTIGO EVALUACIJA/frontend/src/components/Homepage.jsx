@@ -13,7 +13,8 @@ function Homepage() {
         navigate("/register");
     }
 
-    const handleLogin = async() => {
+    const handleLogin = async(e) => {
+        e.preventDefault();
         if (!username || !password) {
             alert("Username and password are required!");
             return;
@@ -51,35 +52,37 @@ function Homepage() {
         <div className={styles.container}>
             <div className={styles.formDiv}>
                 <div className={styles.form}>
-                    <p className={styles.header}>Login</p>
-                    <div className={styles.inputDiv}>
-                        <label>Username:</label>
-                        <input
-                            className={styles.input}
-                            type='text'
-                            required
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                        >
-                        </input>
-                    </div>
-                    <div className={styles.inputDiv}>
-                        <label>Password:</label>
-                        <input
-                            className={styles.input}
-                            type='password'
-                            required
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        >
-                        </input>
-                    </div>
-                    <div className={styles.inputDiv}>
-                        <button type="button" onClick={handleLogin} className={styles.btn}>Login</button>
-                    </div>
-                    <div className={styles.inputDiv}>
-                        <button type="button" onClick={handleRegister} className={styles.btn}>Register</button>
-                    </div>
+                    <form onSubmit={handleLogin}>
+                        <p className={styles.header}>Login</p>
+                        <div className={styles.inputDiv}>
+                            <label>Username:</label>
+                            <input
+                                className={styles.input}
+                                type='text'
+                                required
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                            >
+                            </input>
+                        </div>
+                        <div className={styles.inputDiv}>
+                            <label>Password:</label>
+                            <input
+                                className={styles.input}
+                                type='password'
+                                required
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            >
+                            </input>
+                        </div>
+                        <div className={styles.inputDiv}>
+                            <button type="submit" className={styles.btn}>Login</button>
+                        </div>
+                        <div className={styles.inputDiv}>
+                            <button type="button" onClick={handleRegister} className={styles.btn}>Register</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
