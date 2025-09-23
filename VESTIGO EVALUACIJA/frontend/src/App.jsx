@@ -7,7 +7,7 @@ import './App.css'
 import Dashboard from "./components/Dashboard"
 import Homepage from "./components/Homepage"
 import RegisterPage from "./components/RegisterPage"
-
+import AddTask from "./components/AddTaskPage"
 
 function App() {
 
@@ -16,7 +16,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/register" element={<RegisterPage/>} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/dashboard/add" element={<AddTask/>} />
       </Routes>
     </Router>
   )

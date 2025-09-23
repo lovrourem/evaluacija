@@ -1,5 +1,6 @@
 package evaluacijski_zadatak.services.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,6 +33,8 @@ public class TaskServiceImpl implements TaskService {
 
         Task newTask = TaskMapper.mapToTask(taskDto);
         newTask.setUser(user);
+        newTask.setCompleted(false);
+        newTask.setCreatedAt(LocalDateTime.now());
         taskRepository.save(newTask);
         return TaskMapper.mapToTaskDto(newTask);
     }

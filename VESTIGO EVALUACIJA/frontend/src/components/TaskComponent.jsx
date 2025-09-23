@@ -9,7 +9,9 @@ export default function TaskComponent({ task }) {
     return (
         <div className={styles.task}>
             <div className={styles.title}>{task.title}</div>
-            <div className={styles.description}>Opis</div>
+            <div className={styles.description} title={task.description}>
+                Opis
+            </div>
             <div className={styles.createdAt}>
                 <div>Izrađeno</div>
                 <div>{date}</div>

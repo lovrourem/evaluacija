@@ -18,7 +18,9 @@
     width: 9%;
     font-size: clamp(1rem, 1.5vw + 0.4rem, 2rem);
     text-align: center;
+    cursor: context-menu;
 }
+
 
 .createdAt{
     display: flex;
@@ -39,6 +41,8 @@
     display: flex;
     flex-direction: column;
     gap: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .button{
